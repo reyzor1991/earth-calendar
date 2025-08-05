@@ -1,0 +1,36 @@
+{
+  "id": "earth-calendar",
+  "title": "Earth Calendar",
+  "description": "",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Reyzor",
+      "url": "https://www.patreon.com/Reyzor1991",
+      "discord": "reyzor1991"
+    }
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "esmodules": [
+    "earth-calendar.mjs"
+  ],
+  "styles": [
+    "styles/earth-calendar.css"
+  ],
+  "packFolders": [],
+  "packs": [],
+  "compatibility": {
+    "minimum": "13.346",
+    "verified": "13.346"
+  },
+  "url": "https://github.com/reyzor1991/pf2e-wiki/wiki/Earth-Calendar",
+  "manifest": "",
+  "download": "",
+  "relationships": {}
+}
