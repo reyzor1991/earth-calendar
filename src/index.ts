@@ -52,6 +52,8 @@ Hooks.on("init", async () => {
     });
 
     game.settings.register(moduleName, "currentTimeZone", {
+        scope: "world",
+        config: true,
         name: `${moduleName}.SETTINGS.currentTimeZone.name`,
         hint: `${moduleName}.SETTINGS.currentTimeZone.hint`,
         type: String,
