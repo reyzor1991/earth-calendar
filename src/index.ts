@@ -33,6 +33,10 @@ const TIME_ZONES = {
     honolulu: 'Pacific/Honolulu'
 }
 
+function isActiveGM() {
+    return game.user === game.users.activeGM;
+}
+
 Hooks.on("init", async () => {
 
     game.settings.register(moduleName, "calendarFormatStyle", {
@@ -120,75 +124,67 @@ function rerenderTime(html: HTMLElement) {
             </div>`
         );
         const btnContainer = newEl.querySelector('.btns') as Element;
-        btnContainer.append(
-            minusMonthBtn,
-            minusDayBtn,
-            minusHourBtn,
-            minusMinBtn,
-            minusSecBtn,
-            setTimeBtn,
-            plusSecBtn,
-            plusMinBtn,
-            plusHourBtn,
-            plusDayBtn,
-            plusMonthBtn
-        );
-
         html.appendChild(newEl);
 
-        setTimeBtn.addEventListener("click", async (e) => {
-            const resp = await foundry.applications.api.DialogV2.input({
-                window: {
-                    title: "Set new time",
-                },
-                content: `<label>Time</label><input type="number" name="time" value="${game.time.worldTime}">`
+        if (isActiveGM()) {
+            btnContainer.append(
+                minusMonthBtn,
+                minusDayBtn,
+                minusHourBtn,
+                minusMinBtn,
+                minusSecBtn,
+                setTimeBtn,
+                plusSecBtn,
+                plusMinBtn,
+                plusHourBtn,
+                plusDayBtn,
+                plusMonthBtn
+            );
+
+            setTimeBtn.addEventListener("click", async (e) => {
+                const resp = await foundry.applications.api.DialogV2.input({
+                    window: {
+                        title: "Set new time",
+                    },
+                    content: `<label>Time</label><input type="number" name="time" value="${game.time.worldTime}">`
+                })
+                if (!Number.isNumeric(resp?.time)) return;
+
+                game.time.set(Number(resp.time));
             })
-            if (!Number.isNumeric(resp?.time)) return;
-
-            game.time.set(Number(resp.time));
-        })
-
-        minusSecBtn.addEventListener("click", async (e) => {
-            game.time.advance(-1)
-        })
-
-        minusMinBtn.addEventListener("click", async (e) => {
-            game.time.advance(-60)
-        })
-
-        minusHourBtn.addEventListener("click", async (e) => {
-            game.time.advance(-3600)
-        })
-
-        minusDayBtn.addEventListener("click", async (e) => {
-            game.time.advance(-86400)
-        })
-
-        minusMonthBtn.addEventListener("click", async (e) => {
-            const d = new Date(game.time.worldTime * 1000)
-            game.time.set((d.setMonth(d.getMonth() - 1) / 1000))
-        })
-
-        plusSecBtn.addEventListener("click", async (e) => {
-            game.time.advance(1)
-        })
-
-        plusMinBtn.addEventListener("click", async (e) => {
-            game.time.advance(60)
-        })
-
-        plusHourBtn.addEventListener("click", async (e) => {
-            game.time.advance(3600)
-        })
-
-        plusDayBtn.addEventListener("click", async (e) => {
-            game.time.advance(86400)
-        })
-
-        plusMonthBtn.addEventListener("click", async (e) => {
-            const d = new Date(game.time.worldTime * 1000)
-            game.time.set((d.setMonth(d.getMonth() + 1) / 1000))
-        })
+            minusSecBtn.addEventListener("click", async (e) => {
+                game.time.advance(-1)
+            })
+            minusMinBtn.addEventListener("click", async (e) => {
+                game.time.advance(-60)
+            })
+            minusHourBtn.addEventListener("click", async (e) => {
+                game.time.advance(-3600)
+            })
+            minusDayBtn.addEventListener("click", async (e) => {
+                game.time.advance(-86400)
+            })
+            minusMonthBtn.addEventListener("click", async (e) => {
+                const d = new Date(game.time.worldTime * 1000)
+                game.time.set((d.setMonth(d.getMonth() - 1) / 1000))
+            })
+            plusSecBtn.addEventListener("click", async (e) => {
+                game.time.advance(1)
+            })
+            plusMinBtn.addEventListener("click", async (e) => {
+                game.time.advance(60)
+            })
+            plusHourBtn.addEventListener("click", async (e) => {
+                game.time.advance(3600)
+            })
+            plusDayBtn.addEventListener("click", async (e) => {
+                game.time.advance(86400)
+            })
+            plusMonthBtn.addEventListener("click", async (e) => {
+                const d = new Date(game.time.worldTime * 1000)
+                game.time.set((d.setMonth(d.getMonth() + 1) / 1000))
+            })
+        }
     }
 }
 
