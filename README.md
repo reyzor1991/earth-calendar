@@ -1,6 +1,8 @@
 
 [Wiki](https://github.com/reyzor1991/pf2e-wiki/wiki/Earth-Calendar)
 
+Module use epoch time. It refers to the number of seconds that have elapsed since January 1, 1970, 00:00:00 Coordinated Universal Time (UTC)
+
 
 <img width="305" height="191" alt="view" src="https://github.com/user-attachments/assets/88163424-415c-493a-a205-8a39d0719989" />
 
