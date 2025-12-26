@@ -139,10 +139,15 @@ class CalendarConfigForm extends foundry.applications.api.HandlebarsApplicationM
             title: "Calendar config",
             resizable: true
         },
+        position: {
+            width: 650,
+            height: 270,
+        },
         actions: {},
         form: {
             handler: this.formHandler,
-            closeOnSubmit: false
+            closeOnSubmit: false,
+            submitOnChange: true
         },
     };
 
@@ -153,9 +158,9 @@ class CalendarConfigForm extends foundry.applications.api.HandlebarsApplicationM
     };
 
     static async formHandler(event: SubmitEvent | Event, form: HTMLFormElement, formData: FormData & { object: Record<string, unknown> }) {
-        const data = formData.object as { [key: string]: boolean; };
-        console.log('Data for save')
-        console.log(data)
+        const data = formData.object as { [key: string]: string; };
+        let json = JSON.parse(data['json-calendar-config']);
+        Settings.set("customCalendarConfig", json);
     }
 
     async _prepareContext(options: { parts: string[] }) {
@@ -180,6 +185,9 @@ Hooks.on('updateWorldTime', () => {
 class Settings {
     static get(name: string) {
         return game.settings.get(moduleName, name);
+    };
+    static set(name: string, value: any) {
+        return game.settings.set(moduleName, name, value);
     };
 }
 
