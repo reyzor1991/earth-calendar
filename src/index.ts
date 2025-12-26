@@ -524,3 +524,53 @@ function addMonthsToSeconds(cfg, totalSeconds, deltaMonths) {
     // convert back to seconds
     return secondsFromDate(cfg, newDate.year, newDate.monthIndex, newDate.day, hour, minute, second);
 }
+
+function secondsFromDate(cfg, year, monthIndex, day, hour, minute, second) {
+    const { secondsInMinute, minutesInHour, hoursInDay } = cfg.time;
+    const secondsInHour = secondsInMinute * minutesInHour;
+    const secondsInDay = hoursInDay * secondsInHour;
+
+    // build caches once
+    if (!cfg._cache) {
+        cfg._cache = buildMonthCache(cfg);
+        cfg._cycle = computeLeapCycle(cfg, cfg._cache);
+        cfg._mega = computeMegaCycle(cfg, cfg._cache);
+    }
+
+    const cache = cfg._cache;
+
+    let totalDays = 0;
+
+    // skip mega cycles
+    if (cfg._mega.interval > 1) {
+        const megaCycles = Math.floor((year - 1) / cfg._mega.interval);
+        totalDays += megaCycles * cfg._mega.days;
+        year -= megaCycles * cfg._mega.interval;
+    }
+
+    // skip leap cycles
+    if (cfg._cycle.interval > 1) {
+        const cycles = Math.floor((year - 1) / cfg._cycle.interval);
+        totalDays += cycles * cfg._cycle.days;
+        year -= cycles * cfg._cycle.interval;
+    }
+
+    // remaining years
+    for (let y = 1; y < year; y++) {
+        totalDays += daysInYear(cfg, y, cache);
+    }
+
+    // days in current year before month
+    const monthArr = isLeapYear(cfg, year) ? cache.leap : cache.normal;
+    totalDays += monthArr[monthIndex];
+
+    // days in month (day is 1-based)
+    totalDays += (day - 1);
+
+    return (
+        totalDays * secondsInDay +
+        hour * secondsInHour +
+        minute * secondsInMinute +
+        second
+    );
+}
