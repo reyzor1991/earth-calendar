@@ -2,7 +2,7 @@
   "id": "earth-calendar",
   "title": "Earth Calendar",
   "description": "",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "authors": [
     {
       "name": "Reyzor",
@@ -26,11 +26,12 @@
   "packFolders": [],
   "packs": [],
   "compatibility": {
-    "minimum": "13.346",
-    "verified": "13.346"
+    "minimum": "14.360",
+    "verified": "14.360",
+    "maximum": "14.999"
   },
   "url": "https://github.com/reyzor1991/pf2e-wiki/wiki/Earth-Calendar",
-  "manifest": "https://www.dropbox.com/scl/fi/c182u7z1wawqszabqs2x3/module.json?rlkey=lrj76d97n6l3xfkssg1ughqyt&st=icrpq7o0&dl=1",
-  "download": "https://www.dropbox.com/scl/fi/s5039ju1cef5sjolo2bjy/earth-calendar.zip?rlkey=7luja3eaa2lgcg46s1p864dtq&st=l12mjs5y&dl=1",
+  "manifest": "https://www.dropbox.com/scl/fi/9b5t82eiauqvbjtyyry71/module.json?rlkey=050t3destopdu4p6f5womh98f&st=n9k8ll8i&dl=1",
+  "download": "https://www.dropbox.com/scl/fi/4jl22jh1fg2d3xkhd3tno/earth-calendar.zip?rlkey=wsuuf06vqeefq6pymzpu0ztdz&st=4co0drtu&dl=1",
   "relationships": {}
 }
