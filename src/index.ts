@@ -126,6 +126,18 @@ Hooks.on("init", async () => {
         },
     });
 
+    game.settings.register(moduleName, "startZero", {
+        scope: "world",
+        config: true,
+        name: `${moduleName}.SETTINGS.startZero.name`,
+        hint: `${moduleName}.SETTINGS.startZero.hint`,
+        type: Boolean,
+        default: false,
+        onChange: (_value: any) => {
+            rerenderTime(ui.players.element)
+        },
+    });
+
 });
 
 class CalendarConfigForm extends foundry.applications.api.HandlebarsApplicationMixin(
@@ -186,6 +198,7 @@ class Settings {
     static get(name: string) {
         return game.settings.get(moduleName, name);
     };
+
     static set(name: string, value: any) {
         return game.settings.set(moduleName, name, value);
     };
@@ -198,7 +211,11 @@ function getFormattedDate() {
     }
 
     const timeZone = Settings.get("currentTimeZone");
-    const date = new Date(game.time.worldTime * 1000); // assuming epoch in seconds
+
+    const date = Settings.get("startZero")
+        ? new Date((new Date('0000-01-01T00:00:00Z')).getTime() + game.time.worldTime * 1000)
+        : new Date(game.time.worldTime * 1000);
+
     return date.toLocaleString(Settings.get("calendarFormatStyle"), {
         timeZone: TIME_ZONES[timeZone],
         hour12: false,
@@ -476,7 +493,7 @@ function addMonths(cfg, year, monthIndex, day, delta) {
 
     const newDay = Math.min(day, maxDay);
 
-    return { year: newYear, monthIndex: newMonth, day: newDay };
+    return {year: newYear, monthIndex: newMonth, day: newDay};
 }
 
 function addMonthsToSeconds(cfg, totalSeconds, deltaMonths) {
@@ -534,7 +551,7 @@ function addMonthsToSeconds(cfg, totalSeconds, deltaMonths) {
 }
 
 function secondsFromDate(cfg, year, monthIndex, day, hour, minute, second) {
-    const { secondsInMinute, minutesInHour, hoursInDay } = cfg.time;
+    const {secondsInMinute, minutesInHour, hoursInDay} = cfg.time;
     const secondsInHour = secondsInMinute * minutesInHour;
     const secondsInDay = hoursInDay * secondsInHour;
 

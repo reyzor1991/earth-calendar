@@ -14,6 +14,10 @@
       "useCustomConfig": {
         "name": "Use custom config",
         "hint": "configuration from json"
+      },
+      "startZero": {
+        "name": "Starts from 0 year",
+        "hint": ""
       }
     }
   }
